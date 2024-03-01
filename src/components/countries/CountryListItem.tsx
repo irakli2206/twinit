@@ -8,7 +8,7 @@ import { AnimatePresence, motion } from 'framer-motion'
 
 type Props = ListCountryT
 
-const CountryListItem = ({ flag, name, population }: Props) => {
+const CountryListItem = ({ flags, name, population }: Props) => {
     const navigate = useNavigate()
     const [isLoading, setIsLoading] = useState(true)
 
@@ -40,7 +40,7 @@ const CountryListItem = ({ flag, name, population }: Props) => {
             >
                 <div className="flex flex-col sm:flex-row min-w-0 gap-x-4">
                     <div className='h-12 w-12 relative'>
-                        <img className="h-12 w-12 flex-none  object-contain" src={flag.url} alt={flag.alt}
+                        <img className="h-12 w-12 flex-none  object-contain" src={flags.svg} alt={flags.alt}
                             onLoad={() => setIsLoading(false)}
                         />
                     </div>

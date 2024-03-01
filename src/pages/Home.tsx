@@ -8,7 +8,7 @@ import { LightButton } from '../components/Elements'
 import { motion } from 'framer-motion'
 import { useNavigate } from 'react-router-dom'
 import { US, GE, CN, BH, AR, CZ, DE } from 'country-flag-icons/react/3x2'
-import Modal, { UpdateModal } from '../components/Modal'
+import { UpdateModal } from '../components/Modal'
 
 
 const Home = () => {

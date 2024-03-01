@@ -17,7 +17,8 @@ const CountryDetails = () => {
         }
       >
         {(data) => {
-          let {name, capital, population, region, languages, currencies, flags} = data.data[0]
+          console.log(data.data[0])
+          let {name, capital, population, region, languages, currencies, flags}: CountryDetailsT = data.data[0]
           return (
             <div className='w-full'>
               <div className="px-4 sm:px-0 flex items-center justify-between ">

@@ -2,7 +2,6 @@ import React, { ChangeEvent, Suspense, useEffect, useMemo, useState } from 'reac
 import { Await, useLoaderData, useParams, useSearchParams } from 'react-router-dom'
 import CountryListItem from '../components/countries/CountryListItem'
 import { ContinentOptionT, ListCountryT } from '../types/general'
-import ReactSelect from 'react-select'
 import { Dropdown, Input, LoadingOverlay, Spinner } from '../components/Elements'
 import { CountryListError } from '../components/Error'
 import { api } from '../main'
@@ -14,15 +13,13 @@ import { defaultContinentOptions } from '../data'
 const CountryList = () => {
     const loaderData = useLoaderData() as any
 
-    const [countryFilter, setCountryFilter] = useState("")
+    const [countryFilter, setCountryFilter] = useState<string>("")
     const [continentFilter, setContinentFilter] = useState<string>("All")
 
 
     const filteredData = useMemo(() => {
-        let filteredCountries: ListCountryT[] = []
-        filteredCountries = [...loaderData].filter(country => country.name.common.toLowerCase().includes(countryFilter.toLowerCase()) && (country.region.includes(continentFilter) || continentFilter === "All"))
-
-        return filteredCountries
+        console.log(loaderData)
+        return loaderData.filter((country: ListCountryT) => country.name.common.toLowerCase().includes(countryFilter.toLowerCase()) && (country.region.includes(continentFilter) || continentFilter === "All"))
     }, [countryFilter, continentFilter])
 
     const handleContinentChange = (value: string) => {
@@ -45,12 +42,13 @@ const CountryList = () => {
             <>
                 <div className='h-full w-full flex items-center justify-center'>
                     <ul className="flex flex-col max-w-screen-sm divide-y divide-gray-200  w-full">
-                        {filteredData.map((country: any) => {
+                        {filteredData.map((country: ListCountryT) => {
 
                             return (
-                                <CountryListItem key={country.name.common} name={country.name} population={country.population} flag={{ alt: country.flags.alt, url: country.flags.svg }} />
+                                <CountryListItem key={country.name.common} {...country} />
                             )
                         })}
+                        {filteredData.length === 0 && <h1 className='text-center'>No results</h1>}
                     </ul>
                 </div>
             </>

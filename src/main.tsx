@@ -20,7 +20,7 @@ const countryDetailsLoader = async ({ params }: LoaderFunctionArgs) => {
   })
 }
 
-const countryListLoader = async ({ params }: LoaderFunctionArgs) => {
+const countryListLoader = async () => {
   const endpoint = api + '/v3.1/all?fields=name,flags,population,region'
   const res = await axios.get(endpoint)
   return res.data
