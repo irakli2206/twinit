@@ -7,13 +7,9 @@ const RootLayout = () => {
     return (
         <main className='min-h-screen h-screen w-full mx-auto '>
             <Suspense fallback={<LoadingOverlay />}  >
-
                 <div className="wrapper  h-full w-full relative">
-
                     <Breadcrumbs />
-
                     <Outlet />
-
                 </div>
             </Suspense>
         </main>

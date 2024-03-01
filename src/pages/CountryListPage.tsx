@@ -37,7 +37,6 @@ const CountryListPage = () => {
         <>
             <SearchFilters countryFilter={countryFilter} continentFilter={continentFilter} handleContinentChange={handleContinentChange} handleSearchChange={handleSearchChange} />
             <CountryList filteredData={filteredData} />
-
         </>
     )
 }
