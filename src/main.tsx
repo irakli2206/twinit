@@ -2,8 +2,6 @@ import React, { lazy } from 'react'
 import ReactDOM from 'react-dom/client'
 import './index.css'
 import { Link, LoaderFunctionArgs, RouterProvider, createBrowserRouter, defer } from 'react-router-dom'
-import CountryList from './pages/CountryList'
-import CountryDetails from './pages/CountryDetails'
 import Root from './layouts/Root'
 import axios from 'axios'
 import CountryLayout from './layouts/CountryLayout'
@@ -13,6 +11,7 @@ export const api = import.meta.env.VITE_API
 
 
 const countryDetailsLoader = async ({ params }: LoaderFunctionArgs) => {
+  //fullText=true otherwise path /eri will return Nigeria, instead we want an error
   const countryDetailsEndpoint = api + '/v3.1/name/' + params.country + '?fullText=true'
   let res = axios.get(countryDetailsEndpoint)
   return defer({
@@ -26,9 +25,9 @@ const countryListLoader = async () => {
   return res.data
 }
 
-const LazyHome = lazy(() => import('./pages/Home'));
-const LazyCountryList = lazy(() => import('./pages/CountryList'));
-const LazyCountryDetails = lazy(() => import('./pages/CountryDetails'));
+const LazyHome = lazy(() => import('./pages/HomePage.tsx'));
+const LazyCountryList = lazy(() => import('./pages/CountryListPage'));
+const LazyCountryDetails = lazy(() => import('./pages/CountryDetailsPage.tsx'));
 
 
 
@@ -62,6 +61,7 @@ const router = createBrowserRouter([
             element: <LazyCountryDetails />,
             loader: countryDetailsLoader,
             handle: {
+              //span because last destination in the breadcrumbs, this can never be a Link
               crumb: () => { return <span>Country Details</span> },
             },
           }

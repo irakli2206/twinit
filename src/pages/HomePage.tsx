@@ -11,7 +11,7 @@ import { US, GE, CN, BH, AR, CZ, DE } from 'country-flag-icons/react/3x2'
 import { UpdateModal } from '../components/Modal'
 
 
-const Home = () => {
+const HomePage = () => {
     const [isModalOpen, setIsModalOpen] = useState(false)
     const navigate = useNavigate()
 
@@ -168,4 +168,4 @@ const RadarDecoration = () => {
     )
 }
 
-export default Home
+export default HomePage

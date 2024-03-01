@@ -5,7 +5,7 @@ import { CountryDetailsT } from '../types/general'
 import { CountryDetailsError } from '../components/Error'
  
 
-const CountryDetails = () => {
+const CountryDetailsPage = () => {
   const loaderData = useLoaderData() as any
 
   return (
@@ -17,7 +17,6 @@ const CountryDetails = () => {
         }
       >
         {(data) => {
-          console.log(data.data[0])
           let {name, capital, population, region, languages, currencies, flags}: CountryDetailsT = data.data[0]
           return (
             <div className='w-full'>
@@ -70,4 +69,4 @@ const CountryDetails = () => {
   )
 }
 
-export default CountryDetails
+export default CountryDetailsPage
