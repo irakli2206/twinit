@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { lazy } from 'react'
 import ReactDOM from 'react-dom/client'
 import './index.css'
 import { Link, LoaderFunctionArgs, RouterProvider, createBrowserRouter, defer } from 'react-router-dom'
@@ -8,15 +8,8 @@ import Root from './layouts/Root'
 import axios from 'axios'
 
 
-const api = import.meta.env.VITE_API
+export const api = import.meta.env.VITE_API
 
-const countryListLoader = async ({request}: LoaderFunctionArgs) => {
-  const countryListEndpoint = api + '/v3.1/all?fields=name,flags,population,continent'
-  let res = axios.get(countryListEndpoint)
-  return defer({
-    countryList: res
-  })
-}
 
 const countryDetailsLoader = async ({ params }: LoaderFunctionArgs) => {
   const countryDetailsEndpoint = api + '/v3.1/name/' + params.country + '?fullText=true'
@@ -25,6 +18,15 @@ const countryDetailsLoader = async ({ params }: LoaderFunctionArgs) => {
     countryDetails: res
   })
 }
+
+const countryListLoader = async ({ params }: LoaderFunctionArgs) => {
+  const endpoint = api + '/v3.1/all?fields=name,flags,population,region'
+  const res = await axios.get(endpoint)
+  return res.data
+}
+
+const LazyCountryList = lazy(() => import('./pages/CountryList'));
+const LazyCountryDetails = lazy(() => import('./pages/CountryDetails'));
 
 const router = createBrowserRouter([
   {
@@ -36,17 +38,16 @@ const router = createBrowserRouter([
     children: [
       {
         index: true,
-        element: <CountryList />,
-        loader: countryListLoader,
-
+        element: <LazyCountryList />,
+        loader: countryListLoader
       },
       {
         path: "/:country",
-        element: <CountryDetails />,
+        element: <LazyCountryDetails />,
         loader: countryDetailsLoader,
         handle: {
           crumb: () => { return <span>Country Details</span> },
-        }
+        },
       }
     ]
   }

@@ -1,49 +1,22 @@
-import { ButtonHTMLAttributes, Fragment, InputHTMLAttributes, useEffect, useMemo, useState } from 'react'
+import { AnchorHTMLAttributes, ButtonHTMLAttributes, Fragment, InputHTMLAttributes, LinkHTMLAttributes, useEffect, useMemo, useState } from 'react'
 import { Menu, Transition } from '@headlessui/react'
 import { ChevronDownIcon } from '@heroicons/react/20/solid'
 import classNames from 'classnames'
+import { MdArrowOutward } from "react-icons/md";
+import { ContinentOptionT } from '../types/general';
+import { defaultContinentOptions } from '../data';
+import { MotionConfigProps, MotionProps, motion } from 'framer-motion';
 
 type DropdownProps = {
     value: string | null
     onChange: (value: string) => void
-}
-
-type OptionT = {
     label: string
-    active: boolean
 }
 
-export const Dropdown = ({ value, onChange }: DropdownProps) => {
-    const [options, setOptions] = useState<OptionT[]>([
-        {
-            label: 'Asia',
-            active: false
-        },
-        {
-            label: 'Europe',
-            active: false
-        },
-        {
-            label: 'North America',
-            active: false
-        },
-        {
-            label: 'South America',
-            active: false
-        },
-        {
-            label: 'Africa',
-            active: false
-        },
-        {
-            label: 'Oceania',
-            active: false
-        },
-        {
-            label: 'Antarctica',
-            active: false
-        },
-    ])
+
+
+export const Dropdown = ({ label, value, onChange }: DropdownProps) => {
+    let options = defaultContinentOptions
 
     useEffect(() => {
         if (value) {
@@ -52,19 +25,23 @@ export const Dropdown = ({ value, onChange }: DropdownProps) => {
             curOptions = curOptions.map(option => ({ ...option, active: false }))
             //setting the active option to active state
             curOptions[curOptions.findIndex(option => option.label === value)].active = true
-            setOptions(curOptions)
+            options = curOptions
         }
 
     }, [value])
 
-    const activeOption = options.find(option => option.active)
+    const activeOption = options.find(option => option.label === value)
 
 
     return (
+
         <Menu as="div" className="relative inline-block min-w-36 text-left self-end focus-within:!ring-blue-600" onChange={(e) => console.log(e)}>
+            <label htmlFor="email" className="block text-sm font-medium leading-6 text-gray-900">
+                {label}
+            </label>
             <div>
-                <Menu.Button className="inline-flex  w-full justify-between gap-x-1.5 rounded-md bg-white px-3 py-2 text-sm font-medium text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50">
-                    {activeOption?.label || "Continent"}
+                <Menu.Button className="inline-flex mt-2 w-full justify-between gap-x-1.5 rounded-md bg-white px-3 py-2 text-sm font-medium text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50">
+                    {activeOption?.label}
                     <ChevronDownIcon className="-mr-1 h-5 w-5 text-gray-400" aria-hidden="true" />
                 </Menu.Button>
             </div>
@@ -88,7 +65,7 @@ export const Dropdown = ({ value, onChange }: DropdownProps) => {
                                         <div
                                             onClick={() => onChange(option.label)}
                                             className={classNames('block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900 cursor-pointer', {
-                                                'bg-gray-100 text-gray-900': option.active || active
+                                                'bg-gray-100 text-gray-900': option.label === value || active
                                             })}
                                         >
                                             {option.label}
@@ -106,38 +83,81 @@ export const Dropdown = ({ value, onChange }: DropdownProps) => {
     )
 }
 
-type ButtonProps = ButtonHTMLAttributes<HTMLButtonElement> & {
+type ButtonProps = MotionProps & ButtonHTMLAttributes<HTMLButtonElement> & {
     size?: "sm" | "md" | "lg",
     title?: string,
     children?: string,
-    variant?: "error" | "normal" | "info"
+    variant?: "error" | "normal" | "info",
+    withArrow?: boolean
 }
 
 
-export const LightButton = ({ size = 'md', title, children, variant, className = "", ...props }: ButtonProps) => {
+export const LightButton = ({ size = 'md', title, children, variant, className = "", withArrow = false, ...props }: ButtonProps) => {
     return (
-        <button className={classNames(className + " text-black drop-shadow-sm hover:drop-shadow-none transition font-semibold bg-white border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 rounded-md text-sm px-5 py-2.5  dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700", {
+        <motion.button className={classNames(className + " text-black group drop-shadow-sm items-center gap-0.5 flex hover:drop-shadow-none transition-colors font-semibold bg-white border border-gray-300 focus:outline-none hover:bg-gray-100  rounded-md text-sm px-5 py-2.5 ", {
             "text-xs px-3 py-1 ": size === 'sm',
             "!border-red-300 !bg-red-50 hover:!bg-red-100 !text-red-600": variant === 'error',
-            "!border-blue-300 !bg-blue-50 hover:!bg-blue-100  !text-blue-600": variant === 'info',
+            "!border-blue-300 !bg-blue-50 hover:!bg-blue-100  !text-blue-600 ": variant === 'info',
             "!bg-gray-300 !text-gray-400 !border-none pointer-events-none shadow-none": props.disabled
         })}
             {...props}
+            initial={{
+                boxShadow: "0px 0px 0px 0px #EAEAEA",
+                scale: 1
+            }}
+            whileTap={{
+                scale: 0.95
+            }}
+            whileFocus={{
+                boxShadow: "0px 0px 0px 3px  #EAEAEA",
+                transition: {
+                    duration: 0.05, // Add a smooth transition for boxShadow
+
+                }
+            }}
+
         >
             {title || children}
-        </button>
+            {withArrow && <MdArrowOutward size={16} className=' group-hover:-translate-y-0.5 group-hover:translate-x-0.5 transition' />}
+        </motion.button>
     )
 }
 
-export const Button = ({ size = 'md', title, children, className = "", ...props }: ButtonProps) => {
-    return (
-        <button className={classNames(className + " rounded-md bg-indigo-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 ", {
+type LinkButtonProps = MotionProps & AnchorHTMLAttributes<HTMLAnchorElement> & {
+    size?: "sm" | "md" | "lg",
+    title?: string,
+    children?: string,
+    variant?: "error" | "normal" | "info",
+    withArrow?: boolean
+}
 
+export const LinkButton = ({ size = 'md', title, children, variant, className = "", withArrow = false, href, ...props }: LinkButtonProps) => {
+
+    return (
+        <motion.a href={href} className={classNames(className + " text-black group drop-shadow-sm items-center gap-0.5 flex hover:drop-shadow-none transition-colors font-semibold bg-white border border-gray-300 focus:outline-none hover:bg-gray-100  rounded-md text-sm px-5 py-2.5 ", {
+            "text-xs px-3 py-1 ": size === 'sm',
+            "!border-red-300 !bg-red-50 hover:!bg-red-100 !text-red-600": variant === 'error',
+            "!border-blue-300 !bg-blue-50 hover:!bg-blue-100  !text-blue-600 ": variant === 'info',
         })}
             {...props}
+            initial={{
+                boxShadow: "0px 0px 0px 0px  #DAE7FE",
+                scale: 1
+            }}
+            whileTap={{
+                scale: 0.95
+            }}
+            whileFocus={{
+                boxShadow: "0px 0px 0px 3px  #DAE7FE",
+                transition: {
+                    duration: 0.05, // Add a smooth transition for boxShadow
+
+                }
+            }}
         >
             {title || children}
-        </button>
+            {withArrow && <MdArrowOutward size={16} className=' group-hover:-translate-y-0.5 group-hover:translate-x-0.5 transition' />}
+        </motion.a>
     )
 }
 

@@ -3,8 +3,12 @@ export type FlagT = {
     alt: string
 }
 
+export type CountryNameT = {
+    common: string
+}
+
 export type ListCountryT = {
-    name: string
+    name: CountryNameT
     flag: FlagT,
     population: number
 }
@@ -16,3 +20,8 @@ export type CountryDetailsT = ListCountryT & {
     currency: string
 }
 
+
+export type ContinentOptionT = {
+    label: string
+    active: boolean
+}
