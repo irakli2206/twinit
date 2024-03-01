@@ -18,5 +18,5 @@ To launch in browser:
 - TailwindCSS not usable with Framer Motion, using regular CSS for Framer Motion instead
 
 # Notes
-- API response objects are very large, typing in types/general.ts is partial and not very clean
+- API response objects are very large, TS typing in types/general.ts is partial and not full coverage/accuracy
 - Since the project is not real, .env won't be added to .gitignore
