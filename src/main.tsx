@@ -2,7 +2,7 @@ import React, { lazy } from 'react'
 import ReactDOM from 'react-dom/client'
 import './index.css'
 import { Link, LoaderFunctionArgs, RouterProvider, createBrowserRouter, defer } from 'react-router-dom'
-import Root from './layouts/Root'
+import RootLayout from './layouts/RootLayout.tsx'
 import axios from 'axios'
 import CountryLayout from './layouts/CountryLayout'
 
@@ -34,7 +34,7 @@ const LazyCountryDetails = lazy(() => import('./pages/CountryDetailsPage.tsx'));
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <Root />,
+    element: <RootLayout />,
     handle: {
       crumb: () => <Link to="/">Home</Link>,
     },

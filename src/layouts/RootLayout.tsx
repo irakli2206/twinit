@@ -3,7 +3,7 @@ import { Outlet } from 'react-router-dom'
 import Breadcrumbs from '../components/Breadcrumbs'
 import { LoadingOverlay } from '../components/Elements'
 
-const Root = () => {
+const RootLayout = () => {
     return (
         <main className='min-h-screen h-screen w-full mx-auto '>
             <Suspense fallback={<LoadingOverlay />}  >
@@ -21,4 +21,4 @@ const Root = () => {
     )
 }
 
-export default Root
+export default RootLayout
