@@ -6,6 +6,7 @@ import CountryList from './pages/CountryList'
 import CountryDetails from './pages/CountryDetails'
 import Root from './layouts/Root'
 import axios from 'axios'
+import CountryLayout from './layouts/CountryLayout'
 
 
 export const api = import.meta.env.VITE_API
@@ -25,35 +26,53 @@ const countryListLoader = async ({ params }: LoaderFunctionArgs) => {
   return res.data
 }
 
+const LazyHome = lazy(() => import('./pages/Home'));
 const LazyCountryList = lazy(() => import('./pages/CountryList'));
 const LazyCountryDetails = lazy(() => import('./pages/CountryDetails'));
+
+
 
 const router = createBrowserRouter([
   {
     path: "/",
     element: <Root />,
     handle: {
-      crumb: () => <Link to="/">Country List</Link>,
+      crumb: () => <Link to="/">Home</Link>,
     },
     children: [
+
       {
         index: true,
-        element: <LazyCountryList />,
-        loader: countryListLoader
+        element: <LazyHome />,
       },
       {
-        path: "/:country",
-        element: <LazyCountryDetails />,
-        loader: countryDetailsLoader,
+        path: "/countries",
+        element: <CountryLayout />,
         handle: {
-          crumb: () => { return <span>Country Details</span> },
+          crumb: () => { return <Link to="/countries">Country List</Link> },
         },
-      }
+        children: [
+          {
+            index: true,
+            element: <LazyCountryList />,
+            loader: countryListLoader,
+          },
+          {
+            path: ":country",
+            element: <LazyCountryDetails />,
+            loader: countryDetailsLoader,
+            handle: {
+              crumb: () => { return <span>Country Details</span> },
+            },
+          }
+        ]
+      },
+
+
     ]
   }
 
 ])
-
 
 
 ReactDOM.createRoot(document.getElementById('root')!).render(

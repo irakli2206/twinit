@@ -1,6 +1,6 @@
 import React, { ChangeEvent, Suspense, useEffect, useMemo, useState } from 'react'
 import { Await, useLoaderData, useParams, useSearchParams } from 'react-router-dom'
-import CountryListItem from '../components/CountryListItem'
+import CountryListItem from '../components/countries/CountryListItem'
 import { ContinentOptionT, ListCountryT } from '../types/general'
 import ReactSelect from 'react-select'
 import { Dropdown, Input, LoadingOverlay, Spinner } from '../components/Elements'

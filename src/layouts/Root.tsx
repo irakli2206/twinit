@@ -5,12 +5,12 @@ import { LoadingOverlay } from '../components/Elements'
 
 const Root = () => {
     return (
-        <main className='min-h-screen max-w-screen-lg mx-auto'>
-            <Suspense fallback={<LoadingOverlay />} >
-                <div className="px-2 pt-2 sm:pt-8 sm:px-8">
+        <main className='min-h-screen h-screen w-full mx-auto '>
+            <Suspense fallback={<LoadingOverlay />}  >
+
+                <div className="wrapper  h-full w-full relative">
+
                     <Breadcrumbs />
-                </div>
-                <div className="wrapper p-2 sm:p-8 h-full w-full relative">
 
                     <Outlet />
 

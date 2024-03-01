@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
-import { ListCountryT } from '../types/general'
-import { LightButton, LinkButton } from './Elements'
+import { ListCountryT } from '../../types/general'
+import { LightButton, LinkButton } from '../Elements'
 import { Link, useNavigate } from 'react-router-dom'
 import Skeleton, { SkeletonTheme } from 'react-loading-skeleton'
 import classNames from 'classnames'
@@ -51,7 +51,7 @@ const CountryListItem = ({ flag, name, population }: Props) => {
                     </div>
                 </div>
                 <div className="  flex flex-col items-end justify-center min-[400px]:flex-row min-[400px]:items-center  gap-1">
-                    <LightButton size='sm' onClick={() => navigate(name.common.toLowerCase())}>View Details</LightButton>
+                    <LightButton size='sm' onClick={() => navigate( name.common.toLowerCase())}>View Details</LightButton>
                     <LinkButton href={wikipediaEndpoint} target="_blank" size='sm' withArrow={true} variant='info'>Wiki</LinkButton>
                 </div>
             </motion.li>

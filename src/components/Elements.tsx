@@ -92,10 +92,12 @@ type ButtonProps = MotionProps & ButtonHTMLAttributes<HTMLButtonElement> & {
 }
 
 
+
 export const LightButton = ({ size = 'md', title, children, variant, className = "", withArrow = false, ...props }: ButtonProps) => {
     return (
         <motion.button className={classNames(className + " text-black group drop-shadow-sm items-center gap-0.5 flex hover:drop-shadow-none transition-colors font-semibold bg-white border border-gray-300 focus:outline-none hover:bg-gray-100  rounded-md text-sm px-5 py-2.5 ", {
             "text-xs px-3 py-1 ": size === 'sm',
+            "text-md px-10 py-2 ": size === 'lg',
             "!border-red-300 !bg-red-50 hover:!bg-red-100 !text-red-600": variant === 'error',
             "!border-blue-300 !bg-blue-50 hover:!bg-blue-100  !text-blue-600 ": variant === 'info',
             "!bg-gray-300 !text-gray-400 !border-none pointer-events-none shadow-none": props.disabled

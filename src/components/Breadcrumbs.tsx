@@ -15,11 +15,11 @@ const Breadcrumbs = () => {
  
     return (
         <>
-            {crumbs.length > 1 && <ol className="flex text-blue-600">
+            {crumbs.length > 1 && <ol className="flex text-blue-600 px-2 pt-2 sm:pt-8 sm:px-8">
                 {crumbs.map((crumb: any, index: number) => (
                     <Fragment key={index}>
                         <li  className={classNames('flex ', {
-                            "!text-gray-500": index === crumbs.length - 1
+                            "!text-gray-500 cursor-default pointer-events-none": index === crumbs.length - 1
                         })}>{crumb}</li>
                         {index !== crumbs.length - 1 && <div className='px-1'>/</div>}
                     </Fragment>
